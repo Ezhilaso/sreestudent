@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Admission System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Student Admission System</h1>
+            <p>Manage student records with ease</p>
+        </header>
+
+        <div class="actions-bar">
+            <button class="btn btn-primary" onclick="openAddModal()">+ New Student</button>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by name, roll no, or mobile..." 
+                       onkeyup="handleSearch(event)">
+                <button class="btn btn-search" onclick="performSearch()">🔍 Search</button>
+            </div>
+            <button class="btn btn-success" onclick="exportToExcel()">📊 Export to Excel</button>
+            <button class="btn btn-pay" onclick="openQrModal()">💳 Pay Now</button>
+        </div>
+
+        <div class="table-container">
+            <table id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student Name</th>
+                        <th>Roll No</th>
+                        <th>Fees</th>
+                        <th>Mobile No</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <tr>
+                        <td colspan="6" class="loading">Loading students...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Student</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="studentForm" onsubmit="handleSubmit(event)">
+                <input type="hidden" id="studentId">
+                
+                <div class="form-group">
+                    <label for="studentName">Student Name *</label>
+                    <input type="text" id="studentName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rollNo">Roll No *</label>
+                    <input type="text" id="rollNo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fees">Fees *</label>
+                    <input type="number" id="fees" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobileNo">Mobile No *</label>
+                    <input type="tel" id="mobileNo" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this student record?</p>
+                <p class="delete-warning">This action cannot be undone.</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pay Now QR Modal -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <h2>Pay Now</h2>
+                <span class="close" onclick="closeQrModal()">&times;</span>
+            </div>
+            <div class="modal-body qr-modal-body">
+                <p class="qr-instruction">
+                    Scan this QR code with your UPI / banking app to complete the payment.
+                </p>
+                <div class="qr-wrapper">
+                    <img src="qrcode.png" alt="Payment QR Code" class="qr-image">
+                </div>
+                <p class="qr-note">
+                    Tip: On mobile, you can take a screenshot of this QR and upload it in your payment app if needed.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
